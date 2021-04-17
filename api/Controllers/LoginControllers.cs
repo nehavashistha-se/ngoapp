@@ -5,24 +5,38 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using api.Models;
+using api.Data;
+
 namespace api.Controllers
 {
     [ApiController]
-    [Route("[controller]/api")]
+    [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+         private readonly DataContext _context;  
+  
+        public LoginController(DataContext context)  
+        {  
+            _context = context;  
+        }  
+
+        
+
+        [HttpPost]
+        //public async Task<IActionResult> SaveUser(Appusers appuser)
+        public  IActionResult SaveUser(Appusers appuser)
         {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
-        private readonly ILogger<LoginController> _logger;
-
-        public LoginController(ILogger<LoginController> logger)
+ 
+    _context.Users.Add(appuser); 
+    _context.SaveChanges();
+ 
+           return Ok(appuser.UserId); 
+        } 
+        [HttpGet]
+ public  IActionResult GetUsers()
         {
-            _logger = logger;
-        }
-
+  return Ok(_context.Users.ToList()); 
+        } 
        
     }
 }

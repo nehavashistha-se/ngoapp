@@ -1,34 +1,25 @@
 using api.Data;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Hosting; 
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
+using Microsoft.OpenApi.Models;  
+using Microsoft.EntityFrameworkCore; 
+ 
+
 
 
 namespace api
 {
     public class Startup
     {
-     private readonly IConfiguration _config;
+        private readonly IConfiguration _config;
 
         public Startup(IConfiguration config)
         {
             _config = config;
-
-
         }
-
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
@@ -36,9 +27,9 @@ namespace api
         {
             services.AddDbContext<DataContext>(optionsAction =>
             {
-               optionsAction.UseMySQL(_config.GetConnectionString("Connectionstring"));
+               optionsAction.UseMySQL(_config.GetConnectionString("DefaultConnection"));
             });
-
+          //  services.AddDatabaseDeveloperPageExceptionFilter();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
