@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using api.Models;
+using api.Business_Logic;
 using api.Data;
 
 namespace api.Controllers
@@ -13,30 +14,38 @@ namespace api.Controllers
     [Route("api/[controller]")]
     public class LoginController : ControllerBase
     {
-         private readonly DataContext _context;  
-  
-        public LoginController(DataContext context)  
-        {  
-            _context = context;  
-        }  
 
-        
+
+        public LoginController(DataContext context)
+        {
+            LoginBL._context = context;
+        }
+
+        ResultReturn resultReturn = new ResultReturn();
+        LoginBL LoginBL = new LoginBL();
+
 
         [HttpPost]
-        //public async Task<IActionResult> SaveUser(Appusers appuser)
-        public  IActionResult SaveUser(Appusers appuser)
+        [Route("Login")]
+        public IActionResult Login(Appusers _ObjappUser)
         {
- 
-    _context.Users.Add(appuser); 
-    _context.SaveChanges();
- 
-           return Ok(appuser.UserId); 
-        } 
-        [HttpGet]
- public  IActionResult GetUsers()
+            resultReturn = LoginBL.GetLogindetails(_ObjappUser);
+            return new JsonResult(resultReturn);
+        }
+        [HttpPost]
+        [Route("SaveUser")]
+        public IActionResult SaveUser(Appusers _ObjappUser)
         {
-  return Ok(_context.Users.ToList()); 
-        } 
-       
+            resultReturn = LoginBL.SaveUser(_ObjappUser);
+            return new JsonResult(resultReturn);
+        }
+
+        [HttpPost]
+        [Route("SaveUserDetail")]
+        public IActionResult SaveUserDetail(AppUserDetail _ObjappUserDetail)
+        {
+            resultReturn = LoginBL.SaveUserDetail(_ObjappUserDetail);
+            return new JsonResult(resultReturn);
+        }
     }
 }
