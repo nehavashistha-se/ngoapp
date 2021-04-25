@@ -1,1 +1,114 @@
-<p>user works!</p>
+<app-nav></app-nav>
+<div class="container">
+    <h3>Register User</h3>
+	<div class="col-md-12 d-flex justify-content-end">
+		<input type="button" class="btn btn-primary " name="View" title="View" value="View User" (click)="router.navigate(['ViewUser'])" />
+	   </div>
+	   
+  <hr/>
+    <!-- <a href="#" routerLink="/post/index" class="btn btn-primary">Back</a> -->
+	<form (ngSubmit)="saveUser()">
+  
+		<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4 ">
+			<label for="username">Username* </label>
+			<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
+				placeholder=""/>
+		</div>
+		<div class="col-md-4">
+			<label for="password">Password* </label>
+			<input type="password" class="form-control input-sm" id="password" name="password" [(ngModel)]="appuser.password"
+				placeholder=""/>
+		
+		</div>
+		<div class="col-md-4">
+			<label for="role">Role* </label>
+		
+				<select name="role"  [(ngModel)]="appuser.role" id=role class="form-control input-sm" >
+					<option value="user" selected >User</option>
+					<option value="admin">Admin</option>
+				</select>
+		</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12">
+		<div class="col-md-4 ">
+			<label for="category">Name*</label>
+			<input type="text" class="form-control input-sm" id="name" name="name" [(ngModel)]="appuser.name"
+				placeholder=""/>
+		</div>
+
+		<div class="col-md-4 ">
+			<label for="category">Designation*</label>
+			<input type="text" class="form-control input-sm" id="designation" name="designation" [(ngModel)]="appuser.designation"
+				placeholder=""/>
+		</div>
+</div></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4 ">
+			<label for="address">Address*</label>
+			<textarea class="form-control input-sm" rows="3" id="address" name="address" [(ngModel)]="appuser.address"
+				placeholder=""></textarea>
+		</div>
+
+		<div class="col-md-6 ">
+		<label for="contactno">Contact*</label>
+		<input type="text" class="form-control input-sm" id="contactno" name="contactno" [(ngModel)]="appuser.contactno" placeholder=""/>
+
+		</div>
+
+		<div class="col-md-4 ">
+			<label for="contact">Email*</label>
+			<input type="email" class="form-control input-sm" id="email" name="email"  [(ngModel)]="appuser.email" placeholder=""/>
+
+		</div>
+</div></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4 ">
+			<label for="dob">DOB*</label>
+			<input type="text" class="form-control input-sm datepicker" id="dob" name="dob" [(ngModel)]="appuser.dob" placeholder=""/>
+
+		</div>
+
+		<div class="col-md-4 ">
+			<label for="birthplace">Birth Place*</label>
+			<input type="text" class="form-control input-sm" id="birthplace" name="birthplace" [(ngModel)]="appuser.birthplace" placeholder=""/>
+
+		</div>
+</div></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-4 ">
+			<label for="publications">Publications*</label>
+			<input type="text" class="form-control input-sm" id="publications" name="publications" [(ngModel)]="appuser.publications" placeholder=""/>
+
+		</div>
+		<div class="col-md-2 ">
+			<label for="image">Image*</label>
+			<input type="file" id="image" name="image" [(ngModel)]="appuser.image" />
+		</div>
+		<div class="col-md-2 ">
+			<label for="biodata">biodata*</label>
+			<input type="file" id="biodata"   name="biodata"  [(ngModel)]="appuser.biodata" />
+		</div>
+		<div class="col-md-2 ">
+			<label for="status">status*</label>
+			<input type="checkbox" id="status" name="status"  [(ngModel)]="appuser.status"/>
+		
+		</div>
+</div></div>
+<div class="row">
+	<div class="col-md-12">
+		<div class="col-md-3  pull-left" >
+			<!-- [disabled]="!submitted" -->
+			<button class="btn btn-primary" type="submit" name="save" [title]="submittedname">{{submittedname}}</button>
+		</div>
+
+	</div>
+	</div>
+</form>
+</div>

@@ -1,0 +1,88 @@
+<app-nav></app-nav>
+<div class="form-group p-3">
+    <div class="row">
+<div class="col-md-12 d-flex justify-content-end">
+ <input type="button" class="btn btn-primary " name="Add" title="Add" value="Add User" (click)="router.navigate(['Adduser'])" />
+</div>
+      <div class="table-responsive">
+
+<table class="table table-bordered table-hover table-sm">
+  <thead class="thead-dark d-flex">
+   <th class="col-1"> Username </th>
+        
+   
+   <th class="col-1"> Role </th>
+    
+   <th class="col-1"> Category </th>
+
+
+   <th class="col-1"> Name </th>
+
+   <th class="col-1"> Designation </th>
+
+   <th class="col-5"> Address </th>
+
+   <th class="col-1"> Contactno </th>
+
+   <th class="col-1"> Email </th>
+
+   <th class="col-1"> Dob </th>
+
+   <th class="col-1"> Birthplace </th>
+
+   <th class="col-1"> Publications </th>
+
+   <th class="col-1"> Image </th>
+
+   <th class="col-1"> Biodata </th>
+
+<th class="col-1"> status </th>
+<th class="col-1"> createdate </th>
+
+<th class="col-1">createdby </th>
+<th class="col-1">edit </th>
+<th class="col-1">delete </th>
+  </thead>
+  <tbody>
+  <tr *ngFor="let item of viewappuser" class="d-flex">
+    <td class="col-1">{{item.username}}</td>
+       
+    <td class="col-1">{{item.role}}</td>
+    
+    <td class="col-1">{{item.category}}</td>
+
+
+    <td class="col-1">{{item.name}}</td>
+
+    <td class="col-1">{{item.designation}}</td>
+
+    <td class="col-5">{{item.address}}</td>
+
+    <td class="col-1">{{item.contactno}}</td>
+
+    <td class="col-1">{{item.email}}</td>
+
+    <td class="col-1">{{item.dob}}</td>
+
+    <td class="col-1">{{item.birthplace}}</td>
+
+    <td class="col-1">{{item.publications}}</td>
+
+    <td class="col-1">{{item.image}}</td>
+
+    <td class="col-1">{{item.biodata}}</td>
+
+      <td class="col-1">{{item.status}}</td> 
+        <td class="col-1">{{item.createdate}}</td> 
+
+          <td class="col-1">{{item.createdby}}</td>
+          <td class="col-1"><input type="button" class="btn btn-primary" name="Edit" title="Edit" value="Edit" (click)="router.navigate(['EditUser/'+item.userId])"  /></td>
+          <td class="col-1"><input type="button" class="btn btn-primary" name="Delete" title="Delete" value="Delete" (click)="deleteuser()" /></td>
+  </tr>
+</tbody>
+</table>
+
+        </div>
+    </div>
+
+</div>

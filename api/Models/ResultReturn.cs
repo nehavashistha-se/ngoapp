@@ -6,10 +6,11 @@ using static api.Models.Enums;
 
 namespace api.Models
 {
-    public class ResultReturn
+    public class ResultReturn<T>
     {
         public ResultStatus Status_Code { get; set; }
 public string Exception {get;set;}
 public int? Id {get;set;}
+public T Data{get;set;}
     }
 }

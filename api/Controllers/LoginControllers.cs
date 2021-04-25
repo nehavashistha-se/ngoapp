@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using api.Models;
 using api.Business_Logic;
 using api.Data;
+using Microsoft.AspNetCore.Http;
 
 namespace api.Controllers
 {
@@ -18,33 +19,47 @@ namespace api.Controllers
 
         public LoginController(DataContext context)
         {
+
             LoginBL._context = context;
         }
 
-        ResultReturn resultReturn = new ResultReturn();
+       
         LoginBL LoginBL = new LoginBL();
 
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(Appusers _ObjappUser)
+        public IActionResult Login(AppUser _ObjappUser)
         {
-            resultReturn = LoginBL.GetLogindetails(_ObjappUser);
+
+         var   resultReturn = LoginBL.GetLogindetails(_ObjappUser);          
+        HttpContext.Session.SetString("UserId", resultReturn.Data.UserId.ToString());
+         HttpContext.Session.SetString("Role", resultReturn.Data.Role);
+         
             return new JsonResult(resultReturn);
         }
-        [HttpPost]
-        [Route("SaveUser")]
-        public IActionResult SaveUser(Appusers _ObjappUser)
+
+          [HttpPost]
+        [Route("GetUser")]
+        public IActionResult GetUser(AppUserDetail _ObjappUser)
         {
-            resultReturn = LoginBL.SaveUser(_ObjappUser);
+
+//          if(HttpContext.Session.GetString("Role").ToUpper()=="USER")
+//          {
+// _ObjappUser.UserId=Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+//          }
+         
+          var  resultReturn = LoginBL.GetUser(_ObjappUser);
             return new JsonResult(resultReturn);
         }
+       
 
         [HttpPost]
         [Route("SaveUserDetail")]
         public IActionResult SaveUserDetail(AppUserDetail _ObjappUserDetail)
         {
-            resultReturn = LoginBL.SaveUserDetail(_ObjappUserDetail);
+        var    resultReturn = LoginBL.SaveUserDetail(_ObjappUserDetail);
             return new JsonResult(resultReturn);
         }
     }

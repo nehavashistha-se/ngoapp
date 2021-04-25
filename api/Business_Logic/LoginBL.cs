@@ -11,12 +11,19 @@ namespace api.Business_Logic
     public class LoginBL
     {
         public DataContext _context;
-        ResultReturn ResultReturn = new ResultReturn();
 
-        public ResultReturn GetLogindetails(Appusers appuser)
+        public ResultReturn<AppUser> GetLogindetails(AppUser appuser)
         {
+        ResultReturn<AppUser>  ResultReturn = new ResultReturn<AppUser> ();
 
-            var User = _context.Users.Where(y => y.Username == appuser.Username && y.Password == appuser.Password).FirstOrDefault();
+            AppUser User = _context.UsersDetail.Where(y => y.Username == appuser.Username && y.Password == appuser.Password).Select(i=>new AppUser(){
+
+Username=i.Username,
+Password=i.Password,
+UserId=i.UserId,
+Role=i.Role
+
+            }).FirstOrDefault();
             if (User == null)
             {
                 ResultReturn.Status_Code = Enums.ResultStatus.InvalidLogin;
@@ -25,42 +32,37 @@ namespace api.Business_Logic
             {
                 ResultReturn.Id = User.UserId;
                 ResultReturn.Status_Code = Enums.ResultStatus.Success;
-
+ResultReturn.Data=User;
             }
 
             return ResultReturn;
 
         }
-
-
-        public ResultReturn SaveUser(Appusers appuser)
+ public ResultReturn<List<AppUserDetail>> GetUser(AppUserDetail appuser)
         {
-            using (_context)
-            {
-                var UserExist = _context.Users.Where(y => y.Username == appuser.Username && y.Password == appuser.Password).Any();
-                if (UserExist)
-                {
-                    var userdata = _context.Users.Where(y => y.Username == appuser.Username && y.Password == appuser.Password).FirstOrDefault();
-                    userdata.Username = appuser.Username.Trim();
-                    userdata.Password = appuser.Password.Trim();
-                    userdata.Role = appuser.Role.Trim();
+ ResultReturn<List<AppUserDetail>>  ResultReturn = new ResultReturn<List<AppUserDetail>> ();
+            ResultReturn.Data  = _context.UsersDetail.Where(o=>(o.UserId==appuser.UserId || appuser.UserId==0) 
+            && (o.Username==appuser.Username || String.IsNullOrEmpty(appuser.Username)) ).ToList()
+           ;
+            
 
-                    ResultReturn.Status_Code = Enums.ResultStatus.Success;
-                }
-                else
-                {
-                    _context.Users.Add(appuser);
-                    ResultReturn.Status_Code = Enums.ResultStatus.Success;
-
-                }
-                _context.SaveChanges();
-            }
             return ResultReturn;
 
         }
-
-        public ResultReturn SaveUserDetail(AppUserDetail appUserDetail)
+        public ResultReturn<int> DeleteUser(AppUserDetail appuser)
         {
+ ResultReturn<int>  ResultReturn = new ResultReturn<int> ();
+        ;
+        _context.UsersDetail.Remove(_context.UsersDetail.Where(o=>(o.UserId==appuser.UserId)).FirstOrDefault());
+           ;
+            _context.SaveChanges();
+ResultReturn.Data=1;
+            return ResultReturn;
+
+        }
+        public ResultReturn<AppUserDetail> SaveUserDetail(AppUserDetail appUserDetail)
+        {
+            ResultReturn<AppUserDetail>  ResultReturn = new ResultReturn<AppUserDetail> ();
             using (_context)
             {
                 var UserExist = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId).Any();
@@ -108,7 +110,9 @@ namespace api.Business_Logic
                 }
 
                 _context.SaveChanges();
+               
                 ResultReturn.Status_Code = Enums.ResultStatus.Success;
+                ResultReturn.Data=appUserDetail;
 
             }
             return ResultReturn;
