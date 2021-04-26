@@ -2,9 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppUserDetail } from './user.models';
 import {UserService} from './user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpEventType, HttpResponse,HttpClient, HttpRequest } from '@angular/common/http';
-import { FileUploadService } from '../file-upload.service';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Component({
