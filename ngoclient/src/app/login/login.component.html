@@ -3,9 +3,13 @@
     <div class="container">
         <div id="login-row" class="row justify-content-center align-items-center">
             <div id="login-column" class="col-md-4">
-                <div id="login-box" class="col-md-12 shadow bg-light">
-                    <form id="login-form" class="form" action="" method="post" (ngSubmit)="loginProcess()"> 
-                        <h3 class="text-center">Login</h3>
+                <div id="login-box" class=" shadow ">
+                    <div class="bg-darkblue p-2">
+                        <h3 class="text-center text-white">Login</h3>
+                       </div>
+                    <form id="login-form" class="form col-md-12" action="" method="post" (ngSubmit)="loginProcess()"> 
+                      
+                        
                         <div class="row">
                         <div class="form-group">
                             <label for="username" class="">Username:</label><br>
@@ -17,7 +21,7 @@
                         </div>
                     </div>
                     <div class="d-flex align-items-start flex-column bd-highlight  p-2">
-                        <button type="submit" class="btn btn-primary bd-highlight">Login</button>
+                        <button type="submit" class="btn bg-darkblue">Login</button>
                        
                       </div>
                     <div class="d-flex align-items-end flex-column bd-highlight mb-3">

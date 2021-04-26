@@ -1,4 +1,4 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+<nav class="navbar navbar-expand-lg navbar-dark bg-darkblue">
     <div class="container-fluid">
       <a class="navbar-brand" href="#">Ngo-App</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
@@ -7,16 +7,17 @@
       <div class="collapse navbar-collapse" id="navbarCollapse">
         <ul class="navbar-nav me-auto mb-2 mb-md-0">
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" (click)="router.navigate(['Adduser'])">User</a>
+            <a class="nav-link " aria-current="page" (click)="router.navigate(['Adduser'])">User</a>
             
 
           </li>
          
         </ul>
-        <!-- <form class="d-flex">
-          <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success btn" type="submit">Search</button>
-        </form> -->
+        <form class="d-flex">
+          <!-- <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success btn" type="submit">Search</button> -->
+          <a class="nav-link" aria-current="page" (click)="router.navigate([''])">LogOut</a>
+        </form>
       </div>
     </div>
   </nav>

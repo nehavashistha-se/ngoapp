@@ -53,6 +53,11 @@ public class AppUser{
 
         public int createdby { get; set; }
     }
+    public class FileUpload{
+public string folder { get; set; }
+
+
+    }
     public class AppUserDetailHistory
     {
         [Key]

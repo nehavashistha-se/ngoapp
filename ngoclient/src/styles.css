@@ -7,13 +7,21 @@ body {
   background-color: #fcfcfc;
   height: 100vh;
 }
-#login .container #login-row #login-column #login-box {
-  margin-top: 120px;
-  max-width: 600px;
-  height: 320px;
+
+.bg-darkblue{
+
+  background-color: #021c66d9;
+  color: #fcfcfc;
+}
+.float-right{
+
+  float: right;
+}
+
+.card-header
+{
+font-size: x-large;
+font-weight: bold;
+
+}
  
-  background-color: #EAEAEA;
-}
-#login .container #login-row #login-column #login-box #login-form {
-  padding: 20px;
-}

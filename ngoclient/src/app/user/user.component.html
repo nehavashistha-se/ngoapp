@@ -1,17 +1,20 @@
 <app-nav></app-nav>
-<div class="container">
-    <h3>Register User</h3>
-	<div class="col-md-12 d-flex justify-content-end">
-		<input type="button" class="btn btn-primary " name="View" title="View" value="View User" (click)="router.navigate(['ViewUser'])" />
-	   </div>
-	   
-  <hr/>
+<div class=" col-md-12 p-2 card-group">
+<div class="card ">
+	<div class="card-header">
+   Register User
+  
+	<input type="button" class="btn btn-primary pull-left btn-sm float-right" name="View" title="View" value="View User" (click)="router.navigate(['ViewUser'])" />
+
+</div>
+<div class="card-body">
+	
     <!-- <a href="#" routerLink="/post/index" class="btn btn-primary">Back</a> -->
 	<form (ngSubmit)="saveUser()">
   
 		<div class="row">
 	<div class="col-md-12">
-		<div class="col-md-4 ">
+		<div class="col-md-4">
 			<label for="username">Username* </label>
 			<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
 				placeholder=""/>
@@ -54,7 +57,7 @@
 				placeholder=""></textarea>
 		</div>
 
-		<div class="col-md-6 ">
+		<div class="col-md-4 ">
 		<label for="contactno">Contact*</label>
 		<input type="text" class="form-control input-sm" id="contactno" name="contactno" [(ngModel)]="appuser.contactno" placeholder=""/>
 
@@ -88,12 +91,14 @@
 
 		</div>
 		<div class="col-md-2 ">
-			<label for="image">Image*</label>
-			<input type="file" id="image" name="image" [(ngModel)]="appuser.image" />
+			<label for="image">Image*</label> 
+			<input #file type="file" multiple (change)="upload(file.files)" />  
+   
 		</div>
 		<div class="col-md-2 ">
 			<label for="biodata">biodata*</label>
-			<input type="file" id="biodata"   name="biodata"  [(ngModel)]="appuser.biodata" />
+			<input #file type="file" multiple (change)="upload(file.files)" />  
+    
 		</div>
 		<div class="col-md-2 ">
 			<label for="status">status*</label>
@@ -111,4 +116,6 @@
 	</div>
 	</div>
 </form>
+</div>
+</div>
 </div>
