@@ -54,7 +54,20 @@ namespace api.Controllers
             return new JsonResult(resultReturn);
         }
        
+  [HttpPost]
+        [Route("DeleteUser")]
+        public IActionResult DeleteUser(AppUserDetail _ObjappUser)
+        {
 
+//          if(HttpContext.Session.GetString("Role").ToUpper()=="USER")
+//          {
+// _ObjappUser.UserId=Convert.ToInt32(HttpContext.Session.GetString("UserId"));
+
+//          }
+         
+          var  resultReturn = LoginBL.DeleteUser(_ObjappUser);
+            return new JsonResult(resultReturn);
+        }
         [HttpPost]
         [Route("SaveUserDetail")]
         public IActionResult SaveUserDetail(AppUserDetail _ObjappUserDetail)
@@ -80,7 +93,7 @@ Directory.CreateDirectory(pathToSave);
             var fileName = Path.GetFileName(file.FileName);
             var fullPath = Path.Combine(pathToSave, fileName);
             var dbPath = Path.Combine("Upload", fileName);
-
+ 
             using (var stream = new FileStream(fullPath, FileMode.Create))
             {
                 file.CopyTo(stream);

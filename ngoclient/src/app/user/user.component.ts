@@ -15,6 +15,7 @@ export class UserComponent implements OnInit {
   
 
   };
+  baseurl=environment.baseUrl;
   submitted = false;
   submittedname='Save';
   baseApiUrl = environment.baseUrl+'Login/Upload'
@@ -31,7 +32,7 @@ export class UserComponent implements OnInit {
     this.appuser.username="";
     if(this.appuser.userId>0)
     {this.getuserdetail()
-      this.submittedname = 'Edit'
+      this.submittedname = 'Update'
     }
   }
   getuserdetail():void {
@@ -68,15 +69,20 @@ console.log(this.appuser);
    
   // OnClick of button Upload
  
-  upload(files:any) {  
+  upload(files:any,type:string) {  
     if (files.length === 0)  
       return;  
   
     const formData = new FormData();  
   
     for (let file of files)  
-      formData.append(file.name, file);  
-  
+     { formData.append(file.name, file);
+    console.log(file.name)
+      if(type="image")
+      this.appuser.image=file.name;
+      else
+      this.appuser.biodata=file.name;
+     }
     const uploadReq = new HttpRequest('POST', this.baseApiUrl, formData, {  
       reportProgress: true,  
     });  

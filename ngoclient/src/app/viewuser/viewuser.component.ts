@@ -22,7 +22,8 @@ export class ViewuserComponent implements OnInit {
     this.getUsers();
   }
 
-  deleteuser():void {
+  deleteuser(userid:any):void {
+    this.appuser.userId=userid;
     this.userservice.delete(this.appuser).subscribe(response=>{
       
   

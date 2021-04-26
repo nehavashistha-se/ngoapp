@@ -92,12 +92,14 @@
 		</div>
 		<div class="col-md-2 ">
 			<label for="image">Image*</label> 
-			<input #file type="file" multiple (change)="upload(file.files)" />  
-   
+			<input #file type="file" multiple (change)="upload(file.files,'image')" />  
+			
+			<a download href="{{baseurl+'Upload/'+appuser.image}}"  >{{appuser.image}}</a>
 		</div>
 		<div class="col-md-2 ">
 			<label for="biodata">biodata*</label>
-			<input #file type="file" multiple (change)="upload(file.files)" />  
+			<input #file type="file" multiple (change)="upload(file.files,'biodata')"  />  
+			<a download href="{{baseurl+'Upload/'+appuser.biodata}}"  >{{appuser.biodata}}</a>
     
 		</div>
 		<div class="col-md-2 ">
