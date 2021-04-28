@@ -4,6 +4,7 @@ import {UserService} from './user.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { NgxSpinnerService } from "ngx-spinner";
 
 @Component({
   selector: 'app-user',
@@ -11,6 +12,8 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
+  
+  success:boolean=false;
   appuser: AppUserDetail = {
   
 
@@ -20,45 +23,72 @@ export class UserComponent implements OnInit {
   submittedname='Save';
   baseApiUrl = environment.baseUrl+'Login/Upload'
   progress?: number;  
-  message?: string;  
+  message: string="";  
    
-  constructor(private userservice: UserService,private route: ActivatedRoute
-    ,public router: Router ,private http: HttpClient ) { }
+  constructor(private userservice: UserService,
+    private route: ActivatedRoute,
+    public router: Router ,
+    private http: HttpClient,
+    private spinner:NgxSpinnerService ) {   if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")=="0")
+    {
+    this.router.navigate(['']);
+      
+    }}
 
   ngOnInit(): void {
-    this.newUser()
+    
     this.appuser.userId=Number(this.route.snapshot.paramMap.get('id'));
-    console.log(this.appuser)
     this.appuser.username="";
-    if(this.appuser.userId>0)
+    if(this.appuser.userId>0 && (localStorage.getItem("role")=="admin" || Number(localStorage.getItem("userid"))==this.appuser.userId))
     {this.getuserdetail()
       this.submittedname = 'Update'
     }
+   
   }
   getuserdetail():void {
+    this.spinner.show
     this.userservice.get(this.appuser).subscribe(response=>{
-      this.submitted=true;
-      console.log(response)
+      if(response){
+      this.spinner.hide
+      
+      }
+      
     this.appuser=response.data[0];
-   
+ 
+    console.log(this.appuser);
     },
     error => {
-      console.log(error);
+      if(error){
+        this.spinner.hide
+        
+        }
+      this.message=error;
     });
   }
 
   
   saveUser(): void {
+    console.log(this.appuser.dob)
+    this.spinner.show
     
 console.log(this.appuser);
     this.userservice.create(this.appuser)
       .subscribe(
         response => {
-          console.log(response);
-          this.submitted = true;
+          this.spinner.hide
+          if(response){
+          this.message="Successfully Saved"
+          this.success=true;
+          }
+
         },
         error => {
-          console.log(error);
+          this.message="Error Occured"
+          this.success=false;
+          if(error){
+            this.spinner.hide
+            
+            }
         });
   }
 
@@ -74,21 +104,28 @@ console.log(this.appuser);
       return;  
   
     const formData = new FormData();  
-  
-    for (let file of files)  
-     { formData.append(file.name, file);
-    console.log(file.name)
-      if(type="image")
-      this.appuser.image=file.name;
-      else
-      this.appuser.biodata=file.name;
-     }
+       formData.append(files[0].name, files[0]);
+    
+      
+    
     const uploadReq = new HttpRequest('POST', this.baseApiUrl, formData, {  
+      
       reportProgress: true,  
     });  
    
     this.http.request(uploadReq).subscribe(event => {  
-       
+      this.spinner.show
+       if(event)
+       {
+ 
+        this.spinner.hide
+        if(type="image")
+      this.appuser.image=files[0].name;
+      else
+      this.appuser.biodata=files[0].name;
+        
+
+       }
     });  
   }  
 }

@@ -1,4 +1,5 @@
 <app-nav></app-nav>
+
 <div class=" col-md-12 p-2 card-group">
 <div class="card ">
 	<div class="card-header">
@@ -8,116 +9,132 @@
 
 </div>
 <div class="card-body">
-	
+ 
+<div [hidden]="message==''" class=" alert alert-dismissible fade show {{success?'alert alert-success':'alert alert-danger'}}"  role="alert">
+	<strong>{{message}}</strong>
+	<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	  <span aria-hidden="true">&times;</span>
+	</button>
+  </div>
     <!-- <a href="#" routerLink="/post/index" class="btn btn-primary">Back</a> -->
-	<form (ngSubmit)="saveUser()">
-  
+	<form (ngSubmit)="saveUser()" ngNativeValidate>
 		<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-4">
-			<label for="username">Username* </label>
-			<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
-				placeholder=""/>
-		</div>
-		<div class="col-md-4">
-			<label for="password">Password* </label>
-			<input type="password" class="form-control input-sm" id="password" name="password" [(ngModel)]="appuser.password"
-				placeholder=""/>
+			 
+				<div class="col-md-12  " >
+					<!-- [disabled]="!submitted" -->
+					<button class="btn btn-primary float-right" type="submit" name="save" [title]="submittedname">{{submittedname}}</button>
+				</div>
 		
-		</div>
-		<div class="col-md-4">
-			<label for="role">Role* </label>
-		
-				<select name="role"  [(ngModel)]="appuser.role" id=role class="form-control input-sm" >
-					<option value="user" selected >User</option>
-					<option value="admin">Admin</option>
-				</select>
-		</div>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-		<div class="col-md-4 ">
-			<label for="category">Name*</label>
-			<input type="text" class="form-control input-sm" id="name" name="name" [(ngModel)]="appuser.name"
-				placeholder=""/>
-		</div>
+			 
+			</div>
 
-		<div class="col-md-4 ">
-			<label for="category">Designation*</label>
-			<input type="text" class="form-control input-sm" id="designation" name="designation" [(ngModel)]="appuser.designation"
-				placeholder=""/>
-		</div>
-</div></div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-4 ">
-			<label for="address">Address*</label>
-			<textarea class="form-control input-sm" rows="3" id="address" name="address" [(ngModel)]="appuser.address"
-				placeholder=""></textarea>
-		</div>
-
-		<div class="col-md-4 ">
-		<label for="contactno">Contact*</label>
-		<input type="text" class="form-control input-sm" id="contactno" name="contactno" [(ngModel)]="appuser.contactno" placeholder=""/>
-
-		</div>
-
-		<div class="col-md-4 ">
-			<label for="contact">Email*</label>
-			<input type="email" class="form-control input-sm" id="email" name="email"  [(ngModel)]="appuser.email" placeholder=""/>
-
-		</div>
-</div></div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-4 ">
-			<label for="dob">DOB*</label>
-			<input type="text" class="form-control input-sm datepicker" id="dob" name="dob" [(ngModel)]="appuser.dob" placeholder=""/>
-
-		</div>
-
-		<div class="col-md-4 ">
-			<label for="birthplace">Birth Place*</label>
-			<input type="text" class="form-control input-sm" id="birthplace" name="birthplace" [(ngModel)]="appuser.birthplace" placeholder=""/>
-
-		</div>
-</div></div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-4 ">
-			<label for="publications">Publications*</label>
-			<input type="text" class="form-control input-sm" id="publications" name="publications" [(ngModel)]="appuser.publications" placeholder=""/>
-
-		</div>
-		<div class="col-md-2 ">
-			<label for="image">Image*</label> 
-			<input #file type="file" multiple (change)="upload(file.files,'image')" />  
+		<fieldset  class="border p-2">
+			<legend class="w-auto">Login Details</legend>
+			<div class="row">
+	
+				<div class="col-md-3">
+					<label for="username">Username* </label>
+					<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
+						placeholder="" required />
+						<input type="hidden" class="form-control input-sm" id="userid" name="userid" [(ngModel)]="appuser.userId"
+						placeholder=""  />
+				
+				</div>
+				<div class="col-md-3">
+					<label for="password">Password* </label>
+					<input type="password" class="form-control input-sm" id="password" name="password" [(ngModel)]="appuser.password"
+						placeholder="" required/>
+				
+				</div>
+				<div class="col-md-3">
+					<label for="role">Role* </label>
+				
+						<select name="role"  [(ngModel)]="appuser.role" id=role class="form-control input-sm"  required>
+							<option value="user" selected >User</option>
+							<option value="admin">Admin</option>
+						</select>
+				</div>
+				<div class="col-md-3 ">
+					<label for="category">Designation*</label>
+					<input type="text" class="form-control input-sm" id="designation" name="designation" [(ngModel)]="appuser.designation"
+						placeholder=""  required/>
+				</div>
+				<div class="col-md-2  ">
+					<br/>
+					
+					<input type="checkbox" id="status" name="status"  [(ngModel)]="appuser.status"/>
+				&nbsp;&nbsp;<label for="status">Active*</label>
+				</div>
+				</div>
+		</fieldset>
+		<fieldset  class="border p-2">
+			<legend class="w-auto">Personal Details</legend>
+			<div class="row">
+	
+				<div class="col-md-3 ">
+					<label for="category">Name</label>
+					<input type="text" class="form-control input-sm" id="name" name="name" [(ngModel)]="appuser.name"
+						placeholder=""/>
+				</div>
+				<div class="col-md-3 ">
+					<label for="contactno">Contact</label>
+					<input type="text" class="form-control input-sm" id="contactno" name="contactno" [(ngModel)]="appuser.contactno" placeholder=""/>
 			
-			<a download href="{{baseurl+'Upload/'+appuser.image}}"  >{{appuser.image}}</a>
-		</div>
-		<div class="col-md-2 ">
-			<label for="biodata">biodata*</label>
-			<input #file type="file" multiple (change)="upload(file.files,'biodata')"  />  
-			<a download href="{{baseurl+'Upload/'+appuser.biodata}}"  >{{appuser.biodata}}</a>
-    
-		</div>
-		<div class="col-md-2 ">
-			<label for="status">status*</label>
-			<input type="checkbox" id="status" name="status"  [(ngModel)]="appuser.status"/>
-		
-		</div>
-</div></div>
-<div class="row">
-	<div class="col-md-12">
-		<div class="col-md-3  pull-left" >
-			<!-- [disabled]="!submitted" -->
-			<button class="btn btn-primary" type="submit" name="save" [title]="submittedname">{{submittedname}}</button>
-		</div>
+					</div>
+			
+					<div class="col-md-3 ">
+						<label for="contact">Email</label>
+						<input type="email" class="form-control input-sm" id="email" name="email"  [(ngModel)]="appuser.email" placeholder=""/>
+			
+					</div>
+					<div class="col-md-3 ">
+						<label for="dob">DOB</label>
+						<input class="form-control" placeholder="yyyy-mm-dd" type="date"
+						name="dob" [(ngModel)]="appuser.dob" >
+					
+					</div>
+					<div class="col-md-3 ">
+						<label for="birthplace">Birth Place</label>
+						<input type="text" class="form-control input-sm" id="birthplace" name="birthplace" [(ngModel)]="appuser.birthplace" placeholder=""/>
+			
+					</div>
+					<div class="col-md-3 ">
+						<label for="address">Address</label>
+						<textarea class="form-control input-sm" rows="1" id="address" name="address" [(ngModel)]="appuser.address"
+							placeholder=""></textarea>
+					</div>
+				</div>
+		</fieldset>
 
-	</div>
-	</div>
-</form>
+		<fieldset  class="border p-2">
+			<legend class="w-auto">Documents</legend>
+			<div class="row">
+	
+				<div class="col-md-2 ">
+					<label for="publications">Publications</label>
+					<input #file type="file" multiple (change)="upload(file.files,'publications')" />  
+					
+					<a download href="{{baseurl+'Upload/'+appuser.publications}}"  >{{appuser.publications}}</a>
+				
+				</div>
+				<div class="col-md-2 ">
+					<label for="image">Image</label> 
+					<input #file type="file" multiple (change)="upload(file.files,'image')" />  
+					
+					<a download href="{{baseurl+'Upload/'+appuser.image}}"  >{{appuser.image}}</a>
+				</div>
+					
+					<div class="col-md-2 ">
+						<label for="biodata">Biodata</label>
+						<input #file type="file" multiple (change)="upload(file.files,'biodata')"  />  
+						<a download href="{{baseurl+'Upload/'+appuser.biodata}}"  >{{appuser.biodata}}</a>
+				
+					</div>
+					
+				</div>
+		</fieldset>
+	</form>
+
 </div>
 </div>
 </div>

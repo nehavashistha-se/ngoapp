@@ -16,7 +16,12 @@ export class ViewuserComponent implements OnInit {
    userId:0
  };
  
-  constructor(private userservice: UserService,public router: Router ) { }
+  constructor(private userservice: UserService,public router: Router ) { 
+      if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")== "0")
+  {
+  this.router.navigate(['']);
+    
+  }}
 
   ngOnInit(): void {
     this.getUsers();
@@ -26,12 +31,13 @@ export class ViewuserComponent implements OnInit {
     this.appuser.userId=userid;
     this.userservice.delete(this.appuser).subscribe(response=>{
       
-  
     },
     error => {
       console.log(error);
     });
-    this.router.navigate(['ViewUser']);
+    this.router.navigate(['ViewUser']).then(u=>{
+      window.location.reload();
+     } );
   };
   getUsers():void {
     console.log(this.appuser);

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgxSpinnerService } from "ngx-spinner";
+
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthServiceService } from '../auth-service.service';
 import { AppUserDetail } from '../user/user.models';
@@ -12,10 +13,13 @@ import { AppUserDetail } from '../user/user.models';
 })
 export class LoginComponent implements OnInit {
   appuser: AppUserDetail={};
+  message: string="";
+  showerror:boolean=false;
   constructor(
     private AuthService:AuthServiceService,
     private route: ActivatedRoute,
     private router: Router,
+    private spinner: NgxSpinnerService
     ) {}
   ngOnInit() {
     this.initForm();
@@ -25,21 +29,28 @@ export class LoginComponent implements OnInit {
   }
 
   loginProcess(){
+    this.spinner.show;
     
       this.AuthService.get(this.appuser).subscribe(result=>{
-      
-       
+      if(result){
+      this.spinner.hide;
+      }
         if (result.status_Code==0){
-         
-         if(result.data.role="admin")
+          localStorage.setItem("userid",result.data.userId.toString())
+          localStorage.setItem("role",result.data.role.toString())
+         if(result.data.role=="admin"){
+          
           this.router.navigate(['ViewUser'])
-else
-this.router.navigate(['EditUser/'+result.id])
+         }
+        else
+          this.router.navigate(['EditUser/'+result.id])
         }else{
-          alert(result.error);
+          this.spinner.hide;
+          this.message=result.exception;
           this.appuser=new AppUserDetail();
         }
       })
+      this.spinner.hide;
    
   }
 }

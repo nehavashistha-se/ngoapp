@@ -24,4 +24,6 @@ font-size: x-large;
 font-weight: bold;
 
 }
- 
+legend{ float: none; padding: inherit; }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

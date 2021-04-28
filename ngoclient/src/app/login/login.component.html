@@ -1,3 +1,5 @@
+
+
 <div id="login">
 
     <div class="container">
@@ -11,6 +13,10 @@
                       
                         
                         <div class="row">
+                            <div class="text-danger text-center" role="alert" [hidden]="message==''">
+                                <strong>{{message}}</strong>
+                                
+                              </div> 
                         <div class="form-group">
                             <label for="username" class="">Username:</label><br>
                             <input type="text" name="username" id="username" [(ngModel)]="appuser.username" class="form-control">
@@ -20,16 +26,17 @@
                             <input type="password" name="password" id="password" [(ngModel)]="appuser.password" class="form-control">
                         </div>
                     </div>
-                    <div class="d-flex align-items-start flex-column bd-highlight  p-2">
+                    <div class="d-flex align-items-center flex-column bd-highlight  p-2">
                         <button type="submit" class="btn bg-darkblue">Login</button>
                        
                       </div>
+                     
                     <div class="d-flex align-items-end flex-column bd-highlight mb-3">
                         <!-- <a class="p-2 bd-highlight">Register Here</a> -->
                        
                       </div>
                        
-                    
+                     
                        
                     </form>
                 </div>
