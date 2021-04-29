@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppUserDetail } from '../user/user.models';
 import { UserService } from '../user/user.service';
 import { Router } from '@angular/router';
+import { GlobalConstants } from '../GlobalParameters/global-constant';
 
 @Component({
   selector: 'app-viewuser',
@@ -15,16 +16,17 @@ export class ViewuserComponent implements OnInit {
    username:"",
    userId:0
  };
- 
+  totalrecord: any=0;
+  numberOfObjectsPerPage:number=Number(GlobalConstants.numberOfObjectsPerPage);
   constructor(private userservice: UserService,public router: Router ) { 
-      if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")== "0")
+      if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")=="0" || localStorage.getItem("userid")==null)
   {
   this.router.navigate(['']);
     
   }}
 
   ngOnInit(): void {
-    this.getUsers();
+    this.getUsers(0);
   }
 
   deleteuser(userid:any):void {
@@ -33,22 +35,35 @@ export class ViewuserComponent implements OnInit {
       
     },
     error => {
-      console.log(error);
+      //console.log(error);
     });
     this.router.navigate(['ViewUser']).then(u=>{
       window.location.reload();
      } );
   };
-  getUsers():void {
-    console.log(this.appuser);
-    this.userservice.get(this.appuser).subscribe(response=>{
+  counter(i: number) {
+    
+    let indx=Number((this.totalrecord>this.numberOfObjectsPerPage?Math.ceil(this.totalrecord/this.numberOfObjectsPerPage):1));
+  
+    return new Array(indx);
+}
+  getUsers(pagenumber:number):void {
+    //console.log(this.appuser);
+    var appdata={
+     _ObjappUser:this.appuser,
+      numberOfObjectsPerPage:this.numberOfObjectsPerPage,
+      pageNumber:pagenumber
+
+    }
+    //console.log(appdata)
+    this.userservice.get(appdata).subscribe(response=>{
       
-      console.log(response.data)
+      //console.log(response.data)
     this.viewappuser=response.data;
-   
+   this.totalrecord=response.id;
     },
     error => {
-      console.log(error);
+      //console.log(error);
     });
   }
 }

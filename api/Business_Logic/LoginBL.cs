@@ -27,6 +27,7 @@ Role=i.Role
             if (User == null)
             {
                 ResultReturn.Status_Code = Enums.ResultStatus.InvalidLogin;
+                ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.InvalidLogin);
             }
             else
             {
@@ -38,12 +39,16 @@ ResultReturn.Data=User;
             return ResultReturn;
 
         }
- public ResultReturn<List<AppUserDetail>> GetUser(AppUserDetail appuser)
+ public ResultReturn<List<AppUserDetail>> GetUser(AppUserDetail appuser,int numberOfObjectsPerPage=25,int pageNumber=1)
         {
  ResultReturn<List<AppUserDetail>>  ResultReturn = new ResultReturn<List<AppUserDetail>> ();
-            ResultReturn.Data  = _context.UsersDetail.Where(o=>(o.UserId==appuser.UserId || appuser.UserId==0) 
-            && (o.Username==appuser.Username || String.IsNullOrEmpty(appuser.Username)) ).ToList()
+ var ListData=_context.UsersDetail.Where(o=>(o.UserId==appuser.UserId || appuser.UserId==0) 
+            && (o.Username==appuser.Username || String.IsNullOrEmpty(appuser.Username)) ).ToList() ;
+            ResultReturn.Data  = ListData
+            .Skip(numberOfObjectsPerPage * pageNumber)
+  .Take(numberOfObjectsPerPage).ToList();
            ;
+           ResultReturn.Id=ListData.Count();
             
 
             return ResultReturn;
@@ -104,7 +109,17 @@ ResultReturn.Data=1;
                 }
                 else
                 {
+                    if(! _context.UsersDetail.Where(y => y.Username == appUserDetail.Username).Any())
                     _context.UsersDetail.Add(appUserDetail);
+                    else
+                    {
+
+                         ResultReturn.Status_Code = Enums.ResultStatus.AlreadyExists;
+                         ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.AlreadyExists);
+                ResultReturn.Data=appUserDetail;
+            return ResultReturn;
+
+                    }
 
 
                 }
@@ -112,6 +127,8 @@ ResultReturn.Data=1;
                 _context.SaveChanges();
                
                 ResultReturn.Status_Code = Enums.ResultStatus.Success;
+                         ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.Success);
+
                 ResultReturn.Data=appUserDetail;
 
             }

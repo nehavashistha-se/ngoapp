@@ -31,15 +31,15 @@ namespace api.Controllers
       try {
        
         resultReturn = LoginBL.GetLogindetails(_ObjappUser);
-        // if(resultReturn.Data==null)
-        // return BadRequest();
-        // else
+        if(resultReturn.Data!=null)
+        
+         
         {
             var secretkey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@365"));
             var signingCredentials=new SigningCredentials(secretkey,SecurityAlgorithms.HmacSha256);
             var tokenOption=new JwtSecurityToken(
-            issuer:"https://localhost:5001",
-            audience:"https://localhost:5001",
+            issuer:"http://localhost:4200",
+            audience:"http://localhost:4200",
             claims:new List<Claim>(),
             expires:DateTime.Now.AddMinutes(5),
             signingCredentials:signingCredentials
@@ -47,9 +47,9 @@ namespace api.Controllers
             );
             var tokenString=new JwtSecurityTokenHandler().WriteToken(tokenOption);
             //return Ok(new {Token=tokenString});
-            return new JsonResult(resultReturn);
+            
         }
-        
+         return new JsonResult(resultReturn);
       } catch(Exception ex) {
         resultReturn.Exception = ex.Message;
         resultReturn.Status_Code = Enums.ResultStatus.InvalidLogin;
@@ -58,9 +58,10 @@ namespace api.Controllers
     }
 
     [HttpPost][Route("GetUser")]
-    public IActionResult GetUser(AppUserDetail _ObjappUser) {
+    public IActionResult GetUser(AppUserDetailGet _ObjappUser) {
 
-      var resultReturn = LoginBL.GetUser(_ObjappUser);
+      var resultReturn = LoginBL.GetUser(_ObjappUser._ObjAppUser,_ObjappUser.numberOfObjectsPerPage
+      ,_ObjappUser.pageNumber);
       return new JsonResult(resultReturn);
     }
 
@@ -104,5 +105,15 @@ namespace api.Controllers
         return StatusCode(500, $"Internal server error: {ex}");
       }
     }
+
+    
+    [HttpGet("DownloadFile")]
+public  IActionResult DownloadFile(string filename)
+{
+    var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Upload/"+filename);
+    
+    var bytes =  System.IO.File.ReadAllBytes(filePath);
+    return File(bytes, "text/plain", Path.GetFileName(filePath));
+}
   }
 }

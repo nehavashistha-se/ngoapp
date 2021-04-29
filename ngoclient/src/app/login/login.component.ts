@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { NgxSpinnerService } from "ngx-spinner";
-
+ 
+import * as CryptoJS from 'crypto-js';  
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthServiceService } from '../auth-service.service';
 import { AppUserDetail } from '../user/user.models';
+import { GlobalConstants } from '../GlobalParameters/global-constant';
 
 
 @Component({
@@ -12,6 +14,7 @@ import { AppUserDetail } from '../user/user.models';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
+ 
   appuser: AppUserDetail={};
   message: string="";
   showerror:boolean=false;
@@ -34,21 +37,26 @@ export class LoginComponent implements OnInit {
       this.AuthService.get(this.appuser).subscribe(result=>{
       if(result){
       this.spinner.hide;
-      }
+      //console.log(result.data)
+
         if (result.status_Code==0){
-          localStorage.setItem("userid",result.data.userId.toString())
-          localStorage.setItem("role",result.data.role.toString())
+          localStorage.setItem("userid", CryptoJS.AES.encrypt(result.data.userId.toString(), GlobalConstants.encryptionpassword).toString())
+          localStorage.setItem("role",CryptoJS.AES.encrypt(result.data.role.toString(), GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
+          // GlobalConstants.userid=result.data.userid;
          if(result.data.role=="admin"){
-          
           this.router.navigate(['ViewUser'])
          }
         else
-          this.router.navigate(['EditUser/'+result.id])
-        }else{
+        {
+         //console.log(result.data.userId)
+          this.router.navigate(['EditUser',result.data.userId])
+        }}else{
           this.spinner.hide;
+         //console.log(result)
           this.message=result.exception;
           this.appuser=new AppUserDetail();
         }
+      }
       })
       this.spinner.hide;
    

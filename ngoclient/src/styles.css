@@ -21,7 +21,7 @@ body {
 .card-header
 {
 font-size: x-large;
-font-weight: bold;
+/* font-weight: bold; */
 
 }
 legend{ float: none; padding: inherit; }

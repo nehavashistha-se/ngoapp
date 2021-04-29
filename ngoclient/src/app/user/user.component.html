@@ -4,8 +4,10 @@
 <div class="card ">
 	<div class="card-header">
    Register User
-  
-	<input type="button" class="btn btn-primary pull-left btn-sm float-right" name="View" title="View" value="View User" (click)="router.navigate(['ViewUser'])" />
+ 
+	<input type="button" *ngIf="role=='admin'"
+	 class="btn btn-primary pull-left btn-sm float-right" name="View" title="View" value="View User" 
+	 (click)="router.navigate(['ViewUser'])" />
 
 </div>
 <div class="card-body">
@@ -18,7 +20,7 @@
   </div>
     <!-- <a href="#" routerLink="/post/index" class="btn btn-primary">Back</a> -->
 	<form (ngSubmit)="saveUser()" ngNativeValidate>
-		<div class="row">
+		<div class="row ">
 			 
 				<div class="col-md-12  " >
 					<!-- [disabled]="!submitted" -->
@@ -30,7 +32,7 @@
 
 		<fieldset  class="border p-2">
 			<legend class="w-auto">Login Details</legend>
-			<div class="row">
+			<div class="row form-group">
 	
 				<div class="col-md-3">
 					<label for="username">Username* </label>
@@ -46,7 +48,7 @@
 						placeholder="" required/>
 				
 				</div>
-				<div class="col-md-3">
+				<div class="col-md-3"  *ngIf="role=='admin'">
 					<label for="role">Role* </label>
 				
 						<select name="role"  [(ngModel)]="appuser.role" id=role class="form-control input-sm"  required>
@@ -69,7 +71,7 @@
 		</fieldset>
 		<fieldset  class="border p-2">
 			<legend class="w-auto">Personal Details</legend>
-			<div class="row">
+			<div class="row form-group">
 	
 				<div class="col-md-3 ">
 					<label for="category">Name</label>
@@ -93,6 +95,9 @@
 						name="dob" [(ngModel)]="appuser.dob" >
 					
 					</div>
+					</div>
+					<br/>
+					<div class="row form-group ">
 					<div class="col-md-3 ">
 						<label for="birthplace">Birth Place</label>
 						<input type="text" class="form-control input-sm" id="birthplace" name="birthplace" [(ngModel)]="appuser.birthplace" placeholder=""/>
@@ -108,26 +113,26 @@
 
 		<fieldset  class="border p-2">
 			<legend class="w-auto">Documents</legend>
-			<div class="row">
+			<div class="row form-group">
 	
 				<div class="col-md-2 ">
 					<label for="publications">Publications</label>
-					<input #file type="file" multiple (change)="upload(file.files,'publications')" />  
+					<input #filepub type="file" class="form-control" (change)="upload(filepub.files,'publications')" />  
 					
-					<a download href="{{baseurl+'Upload/'+appuser.publications}}"  >{{appuser.publications}}</a>
+					<a (click)="downloadFile(appuser.publications)" class="btn btn-link" >{{appuser.publications}}</a>
 				
 				</div>
 				<div class="col-md-2 ">
 					<label for="image">Image</label> 
-					<input #file type="file" multiple (change)="upload(file.files,'image')" />  
+					<input #fileimage type="file" class="form-control" (change)="upload(fileimage.files,'image')" />  
 					
-					<a download href="{{baseurl+'Upload/'+appuser.image}}"  >{{appuser.image}}</a>
+					<a  (click)="downloadFile(appuser.image)"  class="btn btn-link">{{appuser.image}}</a>
 				</div>
 					
 					<div class="col-md-2 ">
 						<label for="biodata">Biodata</label>
-						<input #file type="file" multiple (change)="upload(file.files,'biodata')"  />  
-						<a download href="{{baseurl+'Upload/'+appuser.biodata}}"  >{{appuser.biodata}}</a>
+						<input #filebio type="file" class="form-control" (change)="upload(filebio.files,'biodata')"  />  
+						<a (click)="downloadFile(appuser.biodata)" class="btn btn-link" >{{appuser.biodata}}</a>
 				
 					</div>
 					

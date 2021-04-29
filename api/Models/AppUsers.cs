@@ -13,6 +13,12 @@ public class AppUser{
        
         public string Role { get; set; }
 }
+public class AppUserDetailGet{
+
+    public AppUserDetail _ObjAppUser{get;set;}
+    public int numberOfObjectsPerPage{get;set;}=25;
+    public int pageNumber{get;set;}=1;
+}
     public class AppUserDetail
     {
 

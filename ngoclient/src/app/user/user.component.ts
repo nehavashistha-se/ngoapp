@@ -5,7 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
+import{ GlobalConstants } from '../GlobalParameters/global-constant';
 
+import * as CryptoJS from 'crypto-js';
+import {  
+  saveAs as importedSaveAs  
+} from "file-saver";  
 @Component({
   selector: 'app-user',
   templateUrl: './user.component.html',
@@ -24,38 +29,72 @@ export class UserComponent implements OnInit {
   baseApiUrl = environment.baseUrl+'Login/Upload'
   progress?: number;  
   message: string="";  
+  role?: any;
+  userid: number;
    
   constructor(private userservice: UserService,
     private route: ActivatedRoute,
     public router: Router ,
     private http: HttpClient,
-    private spinner:NgxSpinnerService ) {   if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")=="0")
+    private spinner:NgxSpinnerService 
+    ) {   
+      let lrole:any = localStorage.getItem("role");//GlobalConstants.role;
+      this.role=CryptoJS.AES.decrypt( lrole,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8);  //GlobalConstants.role;
+      let luserid:any = localStorage.getItem("userid");//GlobalConstants.role;
+      this.userid =Number(CryptoJS.AES.decrypt( luserid ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
+     
+      //console.log(this.userid)
+    if( this.role==null||localStorage.getItem("userid")==""  || localStorage.getItem("userid")==null)
     {
     this.router.navigate(['']);
       
-    }}
+    }
+  
+  }
 
   ngOnInit(): void {
-    
+   
+    GlobalConstants.role=this.role;
     this.appuser.userId=Number(this.route.snapshot.paramMap.get('id'));
+    //console.log(this.appuser.userId)
     this.appuser.username="";
-    if(this.appuser.userId>0 && (localStorage.getItem("role")=="admin" || Number(localStorage.getItem("userid"))==this.appuser.userId))
-    {this.getuserdetail()
+    if(this.appuser.userId>0)
+    {
+     
+      if((GlobalConstants.role=="admin" || this.userid==this.appuser.userId))
+      {
+      this.getuserdetail()
       this.submittedname = 'Update'
     }
+    else
+    {
+
+      this.router.navigate(['EditUser', GlobalConstants.userid ]).then(u=>{
+        window.location.reload();
+       });
+    }
+  }
    
   }
   getuserdetail():void {
     this.spinner.show
-    this.userservice.get(this.appuser).subscribe(response=>{
+    var appdata={
+      _ObjappUser:this.appuser,
+       numberOfObjectsPerPage:1,
+       pageNumber:0
+ 
+     }
+    this.userservice.get(appdata).subscribe(response=>{
       if(response){
       this.spinner.hide
-      
+      if(response.data[0]!=null)
+      this.appuser=response.data[0];
       }
-      
-    this.appuser=response.data[0];
+      else
+      this.newUser();
+   
  
-    console.log(this.appuser);
+    //console.log(this.appuser);
     },
     error => {
       if(error){
@@ -68,17 +107,21 @@ export class UserComponent implements OnInit {
 
   
   saveUser(): void {
-    console.log(this.appuser.dob)
+    //console.log(this.appuser.dob)
     this.spinner.show
     
-console.log(this.appuser);
+//console.log(this.appuser);
     this.userservice.create(this.appuser)
       .subscribe(
         response => {
           this.spinner.hide
-          if(response){
-          this.message="Successfully Saved"
+          if(response){ 
+            //console.log(response)
+          this.message=response.exception;
+          if (response.status_Code==0)
           this.success=true;
+          else
+          this.success=false;
           }
 
         },
@@ -96,7 +139,15 @@ console.log(this.appuser);
     this.submitted = false;
     this.appuser =new AppUserDetail();
   }
-   
+// OnClick of button Download
+
+downloadFile(filename?:string){
+if(filename) 
+  this.userservice.downloadFile(filename).subscribe(response=>{ 
+    importedSaveAs(response, filename)  
+  }); 
+
+}
   // OnClick of button Upload
  
   upload(files:any,type:string) {  
@@ -119,8 +170,10 @@ console.log(this.appuser);
        {
  
         this.spinner.hide
-        if(type="image")
+        if(type=="image")
       this.appuser.image=files[0].name;
+      else if(type=="publications")
+      this.appuser.publications=files[0].name;
       else
       this.appuser.biodata=files[0].name;
         

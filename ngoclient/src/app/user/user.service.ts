@@ -4,7 +4,8 @@ import { HttpClient, HttpHeaders, HttpRequest, HttpEvent } from '@angular/common
 import { Observable,throwError } from 'rxjs';
 import { AppUserDetail } from './user.models';
 import { catchError } from 'rxjs/operators';
-const baseUrl = 'https://localhost:5001/api/Login/';
+import { environment } from 'src/environments/environment';
+const baseUrl = environment.baseUrl +'Login/';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,7 @@ export class UserService {
     );
   }
 
-  get(data:AppUserDetail): Observable<any> {
+  get(data:any): Observable<any> {
     return this.http.post(baseUrl+'GetUser',data) .pipe(
       catchError(this.errorHandler)
     );
@@ -50,13 +51,19 @@ export class UserService {
 
     formData.append('file', file);
 
-    const request = new HttpRequest('POST', `${baseUrl}/upload`, formData, {
+    const request = new HttpRequest('POST', `${baseUrl}upload`, formData, {
       reportProgress: true,
       responseType: 'json'
     });
 
     return this.http.request(request);
   }
+
+  public downloadFile(docFile: string): Observable < Blob > {  
+    return this.http.get(baseUrl + 'DownloadFile?filename=' + docFile, {  
+        responseType: 'blob'  
+    });  
+}  
   errorHandler(error: { error: { message: string; }; status: any; message: any; }) {
     let errorMessage = '';
     if(error.error instanceof ErrorEvent) {

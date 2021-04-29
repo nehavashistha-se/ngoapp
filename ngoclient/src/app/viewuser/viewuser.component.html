@@ -6,52 +6,78 @@
  <input type="button" class="btn btn-primary btn-sm float-right" name="Add" title="Add" value="Add User" (click)="router.navigate(['Adduser'])" />
   </div>
   <div class="card-body">
+   
+  
 <div class="form-group p-3">
+  <span class="text-primary">
+    Total Users: {{totalrecord}}
+  </span>
     <div class="row rounded ">
-<table class="table table-bordered table-hover table-responsive table-sm ">
+<table class="table table-bordered table-hover table-responsive table-sm " >
   <thead class="bg-darkblue">
-   <th class="col-1"> Username </th>
-   <th class="col-1"> Role </th>
-   <th class="col-1"> Category </th>
-   <th class="col-1"> Name </th>
-   <th class="col-1"> Designation </th>
+    <!-- <th class="col-1"> Sr. No. </th> -->
+   <th class="col-2"> Username </th>
+   <th class="col-2"> Role </th>
+   <th class="col-2"> Category </th>
+   <th class="col-2"> Name </th>
+   <th class="col-2"> Designation </th>
    <!-- <th class=" col-5"> Address </th>
-   <th class="col-1"> Contactno </th>
-   <th class="col-1"> Email </th>
-   <th class="col-1"> Dob </th>
-   <th class="col-1"> Birthplace </th>
-   <th class="col-1"> Publications </th>
-   <th class="col-1"> Image </th>
-   <th class="col-1"> Biodata </th> -->
-<th class="col-1"> Status </th>
-<!-- <th class="col-1"> Createdate </th> -->
-<th class="col-1"> Createdby </th>
-<th class="col-1">Edit </th>
-<th class="col-1">Delete </th>
+   <th class="col-2"> Contactno </th>
+   <th class="col-2"> Email </th>
+   <th class="col-2"> Dob </th>
+   <th class="col-2"> Birthplace </th>
+   <th class="col-2"> Publications </th>
+   <th class="col-2"> Image </th>
+   <th class="col-2"> Biodata </th> -->
+<th class="col-2"> Status </th>
+<!-- <th class="col-2"> Createdate </th> -->
+<th class="col-2"> Createdby </th>
+<th class="col-2">Edit </th>
+<th class="col-2">Delete </th>
   </thead>
   <tbody>
-  <tr *ngFor="let item of viewappuser" >
-    <td class="col-1">{{item.username}}</td>
-    <td class="col-1">{{item.role}}</td>
-    <td class="col-1">{{item.category}}</td>
-    <td class="col-1">{{item.name}}</td>
-    <td class="col-1">{{item.designation}}</td>
+  <tr *ngFor="let item of viewappuser;let i = index" >
+    <!-- <td class="col-1">{{i+1}}</td> -->
+    <td class="col-2">{{item.username}}</td>
+    <td class="col-2">{{item.role}}</td>
+    <td class="col-2">{{item.category}}</td>
+    <td class="col-2">{{item.name}}</td>
+    <td class="col-2">{{item.designation}}</td>
     <!-- <td class="col-5 ">{{item.address}}</td>
-    <td class="col-1">{{item.contactno}}</td>
-    <td class="col-1">{{item.email}}</td>
-    <td class="col-1">{{item.dob}}</td>
-    <td class="col-1">{{item.birthplace}}</td>
-    <td class="col-1">{{item.publications}}</td>
-    <td class="col-1">{{item.image}}</td>
-    <td class="col-1">{{item.biodata}}</td> -->
-      <td class="col-1">{{item.status}}</td> 
-        <!-- <td class="col-1">{{item.createdate}}</td>  -->
-          <td class="col-1">{{item.createdby}}</td>
-          <td class="col-1"><input type="button" class="btn btn-primary" name="Edit" title="Edit" value="Edit" (click)="router.navigate(['EditUser/'+item.userId])"  /></td>
-          <td class="col-1"><input type="button" class="btn btn-primary" name="Delete" title="Delete" value="Delete" (click)="deleteuser(item.userId)" /></td>
+    <td class="col-2">{{item.contactno}}</td>
+    <td class="col-2">{{item.email}}</td>
+    <td class="col-2">{{item.dob}}</td>
+    <td class="col-2">{{item.birthplace}}</td>
+    <td class="col-2">{{item.publications}}</td>
+    <td class="col-2">{{item.image}}</td>
+    <td class="col-2">{{item.biodata}}</td> -->
+      <td class="col-2">{{item.status}}</td> 
+        <!-- <td class="col-2">{{item.createdate}}</td>  -->
+          <td class="col-2">{{item.createdby}}</td>
+          <td class="col-2"><input type="button" class="btn btn-primary" name="Edit" title="Edit" value="Edit" (click)="router.navigate(['EditUser/'+item.userId])"  /></td>
+          <td class="col-2"><input type="button" class="btn btn-primary" name="Delete" title="Delete" value="Delete" (click)="deleteuser(item.userId)" /></td>
   </tr>
 </tbody>
 </table>
+<nav aria-label="Page navigation example ">
+  <ul class="pagination float-right">
+    <li class="page-item">
+      <a class="page-link btn" href="#" aria-label="Previous">
+        <span aria-hidden="true">&laquo;</span>
+        <span class="sr-only">Previous</span>
+      </a>
+    </li>
+    <li class="page-item" *ngFor="let item of counter(totalrecord);let i = index" >
+      <a class="page-link btn" (click)="getUsers(i)">{{i+1}}</a></li>
+    
+    <li class="page-item">
+      <a class="page-link btn" href="#" aria-label="Next">
+        <span aria-hidden="true">&raquo;</span>
+        <span class="sr-only">Next</span>
+      </a>
+    </li>
+  </ul>
+</nav>
     </div>
   </div>
 </div>
