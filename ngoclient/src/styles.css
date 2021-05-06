@@ -14,8 +14,8 @@ body {
   color: #fcfcfc;
 }
 .float-right{
-
-  float: right;
+  float: right !important;
+  margin-right: 10px;
 }
 
 .card-header

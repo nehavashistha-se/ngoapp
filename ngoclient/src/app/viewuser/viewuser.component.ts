@@ -19,7 +19,7 @@ export class ViewuserComponent implements OnInit {
   totalrecord: any=0;
   numberOfObjectsPerPage:number=Number(GlobalConstants.numberOfObjectsPerPage);
   constructor(private userservice: UserService,public router: Router ) { 
-      if(localStorage.getItem("userid")=="" || localStorage.getItem("userid")=="0" || localStorage.getItem("userid")==null)
+      if(sessionStorage.getItem("userid")=="" || sessionStorage.getItem("userid")=="0" || sessionStorage.getItem("userid")==null)
   {
   this.router.navigate(['']);
     

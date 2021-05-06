@@ -38,13 +38,13 @@ export class UserComponent implements OnInit {
     private http: HttpClient,
     private spinner:NgxSpinnerService 
     ) {   
-      let lrole:any = localStorage.getItem("role");//GlobalConstants.role;
+      let lrole:any = sessionStorage.getItem("role");//GlobalConstants.role;
       this.role=CryptoJS.AES.decrypt( lrole,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8);  //GlobalConstants.role;
-      let luserid:any = localStorage.getItem("userid");//GlobalConstants.role;
+      let luserid:any = sessionStorage.getItem("userid");//GlobalConstants.role;
       this.userid =Number(CryptoJS.AES.decrypt( luserid ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
      
       //console.log(this.userid)
-    if( this.role==null||localStorage.getItem("userid")==""  || localStorage.getItem("userid")==null)
+    if( this.role==null||sessionStorage.getItem("userid")==""  || sessionStorage.getItem("userid")==null)
     {
     this.router.navigate(['']);
       
@@ -61,7 +61,7 @@ export class UserComponent implements OnInit {
     if(this.appuser.userId>0)
     {
      
-      if((GlobalConstants.role=="admin" || this.userid==this.appuser.userId))
+      if((GlobalConstants.role=="admin" || (GlobalConstants.role!="admin" && this.userid==this.appuser.userId)))
       {
       this.getuserdetail()
       this.submittedname = 'Update'

@@ -13,11 +13,14 @@
           </li>
          
         </ul>
-        <form class="d-flex">
+        <div class="d-flex"  >
+        
           <!-- <input class="form-control me-2 " type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success btn" type="submit">Search</button> -->
-          <a class="nav-link btn" aria-current="page" (click)="LogOut()">LogOut</a>
-        </form>
+          <a class="nav-link btn" *ngIf="this.userid>0" aria-current="page" (click)="LogOut()">LogOut</a>
+          
+
+          </div>
       </div>
     </div>
   </nav>

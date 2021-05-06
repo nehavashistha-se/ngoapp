@@ -37,11 +37,11 @@ export class LoginComponent implements OnInit {
       this.AuthService.get(this.appuser).subscribe(result=>{
       if(result){
       this.spinner.hide;
-      //console.log(result.data)
+      console.log(result.data)
 
         if (result.status_Code==0){
-          localStorage.setItem("userid", CryptoJS.AES.encrypt(result.data.userId.toString(), GlobalConstants.encryptionpassword).toString())
-          localStorage.setItem("role",CryptoJS.AES.encrypt(result.data.role.toString(), GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
+          sessionStorage.setItem("userid", CryptoJS.AES.encrypt(result.data.userId.toString(), GlobalConstants.encryptionpassword).toString())
+          sessionStorage.setItem("role",CryptoJS.AES.encrypt(result.data.role.toString(), GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
           // GlobalConstants.userid=result.data.userid;
          if(result.data.role=="admin"){
           this.router.navigate(['ViewUser'])
@@ -57,8 +57,21 @@ export class LoginComponent implements OnInit {
           this.appuser=new AppUserDetail();
         }
       }
+      },
+      err=>{
+        this.spinner.hide;
+        console.log(err)
+         this.message="Please try again!";
+         this.appuser=new AppUserDetail();
+
       })
       this.spinner.hide;
    
+  }
+  register(){
+    sessionStorage.setItem("userid", CryptoJS.AES.encrypt("-1", GlobalConstants.encryptionpassword).toString())
+    sessionStorage.setItem("role",CryptoJS.AES.encrypt("User", GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
+
+    this.router.navigate(['Adduser'])
   }
 }
