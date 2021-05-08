@@ -35,8 +35,13 @@ export class LoginComponent implements OnInit {
     this.spinner.show;
     
       this.AuthService.get(this.appuser).subscribe(result=>{
-      if(result){
+        if(result)
+        {
+          console.log(result);
+          sessionStorage.setItem('token',result.token)
+      if(result.resultdata){
       this.spinner.hide;
+      result=result.resultdata;
       console.log(result.data)
 
         if (result.status_Code==0){
@@ -56,7 +61,7 @@ export class LoginComponent implements OnInit {
           this.message=result.exception;
           this.appuser=new AppUserDetail();
         }
-      }
+      }}
       },
       err=>{
         this.spinner.hide;

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppUserDetail } from './user.models';
 import {UserService} from './user.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpRequest } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { NgxSpinnerService } from "ngx-spinner";
 import{ GlobalConstants } from '../GlobalParameters/global-constant';
@@ -160,8 +160,8 @@ if(filename)
       
     
     const uploadReq = new HttpRequest('POST', this.baseApiUrl, formData, {  
-      
-      reportProgress: true,  
+      headers:new HttpHeaders().set('Authorization',`Bearer ${this.userservice.getToken()}`),
+      reportProgress: true, 
     });  
    
     this.http.request(uploadReq).subscribe(event => {  

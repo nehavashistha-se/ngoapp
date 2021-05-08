@@ -1,5 +1,5 @@
 <app-nav></app-nav>
-
+<form (ngSubmit)="saveUser()" ngNativeValidate> 
 <div class=" col-md-12 p-2 card-group">
 <div class="card ">
 	<div class="card-header">
@@ -24,7 +24,7 @@
 	</button>
   </div>
     <!-- <a href="#" routerLink="/post/index" class="btn btn-primary">Back</a> -->
-	<form (ngSubmit)="saveUser()" ngNativeValidate>
+	
 		<div class="row ">
 			 
 				<div class="col-md-12  " >
@@ -142,8 +142,9 @@
 					
 				</div>
 		</fieldset>
-	</form>
+	
 
 </div>
 </div>
 </div>
+</form>

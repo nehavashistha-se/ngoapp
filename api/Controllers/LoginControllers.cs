@@ -15,7 +15,7 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    // [Authorize]
+    [Authorize]
     public class LoginController : ControllerBase
     {
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
@@ -49,14 +49,14 @@ namespace api.Controllers
                     Subject = new ClaimsIdentity(new Claim[]{
                                 new Claim(ClaimTypes.Name,_ObjappUser.Username)
                             }),
-                    Expires = DateTime.UtcNow.AddHours(1),
+                    Expires = DateTime.UtcNow.AddHours(12),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(tokenKey),
                                 SecurityAlgorithms.HmacSha256Signature)
 
                 };
                 var token = tokenHandler.CreateToken(tokenDescritor);
                 //new{token=tokenHandler.WriteToken(token)}
-                return new JsonResult(resultReturn);
+                return new JsonResult( new{token=tokenHandler.WriteToken(token),resultdata=resultReturn});
             }
             catch (Exception ex)
             {

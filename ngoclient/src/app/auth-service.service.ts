@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable,throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { AppUserDetail } from './user/user.models';
-import { LoginComponent } from './login/login.component';
 import { catchError } from 'rxjs/operators';
 @Injectable({
   providedIn: 'root'
