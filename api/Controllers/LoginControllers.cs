@@ -15,7 +15,8 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+   // [Authorize]
+   [AllowAnonymous]
     public class LoginController : ControllerBase
     {
         private readonly IJwtAuthenticationManager _jwtAuthenticationManager;
