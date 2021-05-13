@@ -32,19 +32,24 @@ export class UserComponent implements OnInit {
   message: string="";  
   role?: any;
   userid: number;
-   
+  username:string;
   form: FormGroup = new FormGroup({});
+  maxdate : Date =new Date();
+  
   constructor(private userservice: UserService,
     private route: ActivatedRoute,
     public router: Router ,
     private http: HttpClient,
     private spinner:NgxSpinnerService    ) {   
-      
+      this.maxdate.setDate( this.maxdate.getDate() );
+this.maxdate.setFullYear( this.maxdate.getFullYear() - 18 );
+this.maxdate = this.maxdate;
       let lrole:any = sessionStorage.getItem("role");//GlobalConstants.role;
       this.role=CryptoJS.AES.decrypt( lrole,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8);  //GlobalConstants.role;
       let luserid:any = sessionStorage.getItem("userid");//GlobalConstants.role;
       this.userid =Number(CryptoJS.AES.decrypt( luserid ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
-     
+      let lusername:any = sessionStorage.getItem("username");//GlobalConstants.role;
+    this.username =(CryptoJS.AES.decrypt( lusername ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
       //console.log(this.userid)
     if( this.role==null||sessionStorage.getItem("userid")==""  || sessionStorage.getItem("userid")==null)
     {
@@ -75,8 +80,10 @@ export class UserComponent implements OnInit {
         window.location.reload();
        });
     }
+ 
   }
-   
+  this.appuser.createdby=this.username
+ 
   }
   getuserdetail():void {
     this.spinner.show
@@ -90,7 +97,9 @@ export class UserComponent implements OnInit {
       if(response){
       this.spinner.hide
       if(response.data[0]!=null)
+   
       this.appuser=response.data[0];
+      
       }
       else
       this.newUser();
@@ -105,6 +114,7 @@ export class UserComponent implements OnInit {
         }
       this.message=error;
     });
+   
   }
 
   
@@ -140,6 +150,8 @@ export class UserComponent implements OnInit {
   newUser(): void {
     this.submitted = false;
     this.appuser =new AppUserDetail();
+    
+    
   }
 // OnClick of button Download
 

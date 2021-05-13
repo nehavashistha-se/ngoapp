@@ -1,6 +1,6 @@
 
 export class AppUserDetail {
-    userId?: number=0;
+    userId?: number = 0;
     category?: string;
     name?: string;
     designation?: string;
@@ -12,11 +12,10 @@ export class AppUserDetail {
     publications?: string;
     image?: string;
     biodata?: string;
-    status?: boolean=true;
+    status?: boolean = true;
     createdate?: string;
-    createdby?: number;
-    username?:string;
-    password?:string;
-    role?:string="User";
+    createdby?: string;
+    username?: string;
+    password?: string;
+    role?: string = "User";
 }
- 

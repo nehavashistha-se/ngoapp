@@ -11,6 +11,7 @@ import * as CryptoJS from 'crypto-js';
 })
 export class NavComponent implements OnInit {
   userid!: number;
+  username!:string;
  
   constructor(public router: Router) { 
   
@@ -20,6 +21,8 @@ export class NavComponent implements OnInit {
   ngOnInit(): void {
     let luserid:any = sessionStorage.getItem("userid");//GlobalConstants.role;
     this.userid =Number(CryptoJS.AES.decrypt( luserid ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
+    let lusername:any = sessionStorage.getItem("username");//GlobalConstants.role;
+    this.username =(CryptoJS.AES.decrypt( lusername ,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8));  //GlobalConstants.role;
    
   }
 LogOut():void{

@@ -37,15 +37,16 @@ export class LoginComponent implements OnInit {
       this.AuthService.get(this.appuser).subscribe(result=>{
         if(result)
         {
-          console.log(result);
+          //console.log(result);
           sessionStorage.setItem('token',result.token)
       if(result.resultdata){
       this.spinner.hide;
       result=result.resultdata;
-      console.log(result.data)
+      //console.log(result.data)
 
         if (result.status_Code==0){
           sessionStorage.setItem("userid", CryptoJS.AES.encrypt(result.data.userId.toString(), GlobalConstants.encryptionpassword).toString())
+          sessionStorage.setItem("username", CryptoJS.AES.encrypt(result.data.username.toString(), GlobalConstants.encryptionpassword).toString())
           sessionStorage.setItem("role",CryptoJS.AES.encrypt(result.data.role.toString(), GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
           // GlobalConstants.userid=result.data.userid;
          if(result.data.role=="admin"){
@@ -53,11 +54,11 @@ export class LoginComponent implements OnInit {
          }
         else
         {
-         //console.log(result.data.userId)
+         ////console.log(result.data.userId)
           this.router.navigate(['EditUser',result.data.userId])
         }}else{
           this.spinner.hide;
-         //console.log(result)
+         ////console.log(result)
           this.message=result.exception;
           this.appuser=new AppUserDetail();
         }
@@ -65,8 +66,8 @@ export class LoginComponent implements OnInit {
       },
       err=>{
         this.spinner.hide;
-        console.log(err)
-         this.message="Please try again!";
+        //console.log(err)
+         this.message="Invalid username or password";
          this.appuser=new AppUserDetail();
 
       })
@@ -75,7 +76,8 @@ export class LoginComponent implements OnInit {
   }
   register(){
     sessionStorage.setItem("userid", CryptoJS.AES.encrypt("-1", GlobalConstants.encryptionpassword).toString())
-    sessionStorage.setItem("role",CryptoJS.AES.encrypt("User", GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
+    sessionStorage.setItem("role",CryptoJS.AES.encrypt("user", GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
+    sessionStorage.setItem("username",CryptoJS.AES.encrypt("superadmin", GlobalConstants.encryptionpassword).toString())          // GlobalConstants.role=result.data.role.toString();
 
     this.router.navigate(['Adduser'])
   }

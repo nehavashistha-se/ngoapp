@@ -40,7 +40,7 @@ namespace api.Controllers
                 var resultReturn = LoginBL.GetLogindetails(_ObjappUser);
                 if (resultReturn.Data == null)
                 {
-                    return Unauthorized();
+                    return Unauthorized("Invalid username or password");
                 }
                 var tokenHandler = new JwtSecurityTokenHandler();
                 var tokenKey = Encoding.ASCII.GetBytes(_jwtAuthenticationManager.Key);
@@ -60,7 +60,7 @@ namespace api.Controllers
             }
             catch (Exception ex)
             {
-                return Unauthorized();
+                return Unauthorized("Error Occured");
             }
 
         }

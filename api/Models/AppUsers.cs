@@ -1,6 +1,8 @@
 
 using System;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace api.Models
 {
@@ -54,10 +56,12 @@ public class AppUserDetailGet{
 
         public string Biodata { get; set; }
 
-        public bool status { get; set; }=true;
+[Column("status", TypeName = "bit")]
+[DefaultValue(true)]
+        public bool status { get; set; }
         public DateTime createdate { get; set; } = DateTime.Now;
 
-        public int createdby { get; set; }
+        public string createdby { get; set; }
     }
     public class FileUpload{
 public string folder { get; set; }
@@ -94,9 +98,11 @@ public string folder { get; set; }
 
         public string Biodata { get; set; }
 
-        public bool status { get; set; }
+[Column("status", TypeName = "bit")]
+[DefaultValue(true)]
+public Boolean status { get; set; }
         public DateTime createdate { get; set; }
 
-        public int createdby { get; set; }
+        public string createdby { get; set; }
     }
 }

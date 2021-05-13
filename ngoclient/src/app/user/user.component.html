@@ -41,9 +41,11 @@
 				<div class="col-md-3">
 					<label for="username">Username* </label>
 					 
-					<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
+					<input type="text" class="form-control input-sm" id="username" name="username" autofocus  [(ngModel)]="appuser.username"
 						placeholder="" [disabled]= "((appuser.userId==null?-1:appuser.userId)>0)" required />
 						<input type="hidden" class="form-control input-sm" id="userid" name="userid" [(ngModel)]="appuser.userId"
+						placeholder="" />
+						<input type="hidden" class="form-control input-sm" id="createdby" name="createdby" [(ngModel)]="appuser.createdby"
 						placeholder="" />
 				
 				</div>
@@ -69,7 +71,7 @@
 				<div class="col-md-2  ">
 					<br/>
 					
-					<input type="checkbox" id="status" name="status"  [(ngModel)]="appuser.status"/>
+					<input type="checkbox" id="status" name="status"  [(ngModel)]="appuser.status==null?true:appuser.status"/>
 				&nbsp;&nbsp;<label for="status">Active*</label>
 				</div>
 				</div>
@@ -85,7 +87,7 @@
 				</div>
 				<div class="col-md-3 ">
 					<label for="contactno">Contact</label>
-					<input type="tel" class="form-control input-sm" maxlength="10"  id="contactno" name="contactno"  ng-pattern="/^[0-9]*$/" [(ngModel)]="appuser.contactno" placeholder=""/>
+					<input type="tel" pattern="[0-9]*" class="form-control input-sm" maxlength="10"  id="contactno" name="contactno"  ng-pattern="/^[0-9]*$/" [(ngModel)]="appuser.contactno" placeholder=""/>
 			
 					</div>
 			
@@ -96,8 +98,9 @@
 					</div>
 					<div class="col-md-3 ">
 						<label for="dob">DOB</label>
-						<input class="form-control" placeholder="yyyy-mm-dd" type="date"
-						name="dob" [(ngModel)]="appuser.dob" >
+						
+						<input class="form-control" placeholder="yyyy-mm-dd" type="date"  max="{{maxdate|date:'yyyy-MM-dd'}}" 
+						name="dob" [(ngModel)]="appuser.dob"  >
 					
 					</div>
 					</div>

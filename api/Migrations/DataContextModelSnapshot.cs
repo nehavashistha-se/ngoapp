@@ -15,7 +15,7 @@ namespace api.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("Relational:MaxIdentifierLength", 64)
-                .HasAnnotation("ProductVersion", "5.0.5");
+                .HasAnnotation("ProductVersion", "5.0.6");
 
             modelBuilder.Entity("api.Models.AppUserDetail", b =>
                 {
@@ -68,11 +68,12 @@ namespace api.Migrations
                     b.Property<DateTime>("createdate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("createdby")
-                        .HasColumnType("int");
+                    b.Property<string>("createdby")
+                        .HasColumnType("text");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<ulong>("status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
 
                     b.HasKey("UserId");
 
@@ -123,11 +124,12 @@ namespace api.Migrations
                     b.Property<DateTime>("createdate")
                         .HasColumnType("datetime");
 
-                    b.Property<int>("createdby")
-                        .HasColumnType("int");
+                    b.Property<string>("createdby")
+                        .HasColumnType("text");
 
-                    b.Property<bool>("status")
-                        .HasColumnType("tinyint(1)");
+                    b.Property<ulong>("status")
+                        .HasColumnType("bit")
+                        .HasColumnName("status");
 
                     b.HasKey("logdate");
 

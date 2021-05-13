@@ -9,7 +9,7 @@
                     <div class="bg-darkblue p-2">
                         <h3 class="text-center text-white">Login</h3>
                        </div>
-                    <form id="login-form" class="form col-md-12" action="" method="post"  > 
+                    <form id="login-form" class="form col-md-12" action="" method="post" (ngSubmit) ="loginProcess()" ngNativeValidate> 
                       
                         
                         <div class="row">
@@ -19,15 +19,15 @@
                               </div> 
                         <div class="form-group">
                             <label for="username" class="">Username:</label><br>
-                            <input type="text" name="username" id="username" [(ngModel)]="appuser.username" class="form-control">
+                            <input type="text" name="username" id="username" [(ngModel)]="appuser.username" required  autofocus class="form-control">
                         </div>
                         <div class="form-group">
                             <label for="password" class="">Password:</label><br>
-                            <input type="password" name="password" id="password" [(ngModel)]="appuser.password" class="form-control">
+                            <input type="password" name="password" id="password" [(ngModel)]="appuser.password" required class="form-control">
                         </div>
                     </div>
                     <div class="d-flex align-items-center flex-column bd-highlight  p-2">
-                        <button type="submit" class="btn bg-darkblue" (click)="loginProcess()">Login</button>
+                        <button type="submit" class="btn bg-darkblue" >Login</button>
                        
                       </div>
                      

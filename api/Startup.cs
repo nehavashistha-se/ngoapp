@@ -29,7 +29,7 @@ namespace api
   
       services.AddDbContext < DataContext > (optionsAction =>{
         optionsAction.UseMySQL(_config.GetConnectionString("DefaultConnection"));
-      });
+      },ServiceLifetime.Transient);
       services.AddCors();
       var key ="secureSuperKey@365";
       services.AddAuthentication(x=>{
@@ -49,6 +49,7 @@ ValidateAudience=false,
         };
       });
       services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key));
+      
       services.AddControllers();
       services.AddSwaggerGen(c =>{
         c.SwaggerDoc("v1", new OpenApiInfo {

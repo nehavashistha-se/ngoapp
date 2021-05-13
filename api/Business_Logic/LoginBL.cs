@@ -14,63 +14,64 @@ namespace api.Business_Logic
 
         public ResultReturn<AppUser> GetLogindetails(AppUser appuser)
         {
-        ResultReturn<AppUser>  ResultReturn = new ResultReturn<AppUser> ();
+            ResultReturn<AppUser> ResultReturn = new ResultReturn<AppUser>();
 
-            AppUser User = _context.UsersDetail.Where(y => y.Username == appuser.Username && y.Password == appuser.Password).Select(i=>new AppUser(){
+            AppUser User = _context.UsersDetail.Where(y => y.Username == appuser.Username && y.Password == appuser.Password && y.status).Select(i => new AppUser()
+            {
 
-Username=i.Username,
-Password=i.Password,
-UserId=i.UserId,
-Role=i.Role
+                Username = i.Username,
+                Password = i.Password,
+                UserId = i.UserId,
+                Role = i.Role
 
             }).FirstOrDefault();
             if (User == null)
             {
                 ResultReturn.Status_Code = Enums.ResultStatus.InvalidLogin;
-                ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.InvalidLogin);
+                ResultReturn.Exception = Enum.GetName(typeof(Enums.ResultStatus), Enums.ResultStatus.InvalidLogin);
             }
             else
             {
                 ResultReturn.Id = User.UserId;
                 ResultReturn.Status_Code = Enums.ResultStatus.Success;
-ResultReturn.Data=User;
+                ResultReturn.Data = User;
             }
 
             return ResultReturn;
 
         }
- public ResultReturn<List<AppUserDetail>> GetUser(AppUserDetail appuser,int numberOfObjectsPerPage=25,int pageNumber=1)
+        public ResultReturn<List<AppUserDetail>> GetUser(AppUserDetail appuser, int numberOfObjectsPerPage = 25, int pageNumber = 1)
         {
- ResultReturn<List<AppUserDetail>>  ResultReturn = new ResultReturn<List<AppUserDetail>> ();
- var ListData=_context.UsersDetail.Where(o=>(o.UserId==appuser.UserId || appuser.UserId==0) 
-            && (o.Username==appuser.Username || String.IsNullOrEmpty(appuser.Username)) ).ToList() ;
-            ResultReturn.Data  = ListData
+            ResultReturn<List<AppUserDetail>> ResultReturn = new ResultReturn<List<AppUserDetail>>();
+            var ListData = _context.UsersDetail.Where(o => (o.UserId == appuser.UserId || appuser.UserId == 0)
+                         && (o.Username == appuser.Username || String.IsNullOrEmpty(appuser.Username))).ToList();
+            ResultReturn.Data = ListData
             .Skip(numberOfObjectsPerPage * pageNumber)
   .Take(numberOfObjectsPerPage).ToList();
-           ;
-           ResultReturn.Id=ListData.Count();
-            
+            ;
+            ResultReturn.Id = ListData.Count();
+
 
             return ResultReturn;
 
         }
         public ResultReturn<int> DeleteUser(AppUserDetail appuser)
         {
- ResultReturn<int>  ResultReturn = new ResultReturn<int> ();
-        ;
-        _context.UsersDetail.Remove(_context.UsersDetail.Where(o=>(o.UserId==appuser.UserId)).FirstOrDefault());
-           ;
+            ResultReturn<int> ResultReturn = new ResultReturn<int>();
+            ;
+            _context.UsersDetail.Remove(_context.UsersDetail.Where(o => (o.UserId == appuser.UserId)).FirstOrDefault());
+            ;
             _context.SaveChanges();
-ResultReturn.Data=1;
+            ResultReturn.Data = 1;
             return ResultReturn;
 
         }
         public ResultReturn<AppUserDetail> SaveUserDetail(AppUserDetail appUserDetail)
         {
-            ResultReturn<AppUserDetail>  ResultReturn = new ResultReturn<AppUserDetail> ();
+            ResultReturn<AppUserDetail> ResultReturn = new ResultReturn<AppUserDetail>();
             using (_context)
             {
-                var UserExist = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId ).Any();
+                var UserExist = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId).Any();
                 if (UserExist)
                 {
                     var userDetail = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId).FirstOrDefault();
@@ -106,30 +107,30 @@ ResultReturn.Data=1;
                     userDetail.Name = appUserDetail.Name;
                     userDetail.Publications = appUserDetail.Publications;
                     userDetail.status = appUserDetail.status;
+                    userDetail.createdate = appUserDetail.createdate;
+                    userDetail.createdby = appUserDetail.createdby;
                 }
                 else
                 {
-                    if(! _context.UsersDetail.Where(y => y.Username.ToLower().Trim() == appUserDetail.Username.ToLower().Trim() || y.Email.ToLower().Trim()==appUserDetail.Email.ToLower().Trim()).Any())
-                    _context.UsersDetail.Add(appUserDetail);
-                    else
+                    if (_context.UsersDetail.AsEnumerable().Any(k => k.Username.Trim().ToLower() == appUserDetail.Username.ToLower().Trim() 
+                    || (!string.IsNullOrEmpty(k.Email) && !string.IsNullOrEmpty(appUserDetail.Email) && k.Email.Trim().ToLower() == appUserDetail.Email.ToLower().Trim())))
                     {
-
-                         ResultReturn.Status_Code = Enums.ResultStatus.AlreadyExists;
-                         ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.AlreadyExists);
-                ResultReturn.Data=appUserDetail;
-            return ResultReturn;
+                        ResultReturn.Status_Code = Enums.ResultStatus.AlreadyExists;
+                        ResultReturn.Exception = Enum.GetName(typeof(Enums.ResultStatus), Enums.ResultStatus.AlreadyExists);
+                        ResultReturn.Data = appUserDetail;
+                        return ResultReturn;
 
                     }
-
+                    _context.UsersDetail.Add(appUserDetail);
 
                 }
 
                 _context.SaveChanges();
-               
-                ResultReturn.Status_Code = Enums.ResultStatus.Success;
-                         ResultReturn.Exception=Enum.GetName(typeof(Enums.ResultStatus),Enums.ResultStatus.Success);
 
-                ResultReturn.Data=appUserDetail;
+                ResultReturn.Status_Code = Enums.ResultStatus.Success;
+                ResultReturn.Exception = Enum.GetName(typeof(Enums.ResultStatus), Enums.ResultStatus.Success);
+
+                ResultReturn.Data = appUserDetail;
 
             }
             return ResultReturn;
