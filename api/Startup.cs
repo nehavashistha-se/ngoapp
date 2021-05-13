@@ -6,16 +6,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
-
-using System;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Authentication.Cookies;
+using api.Business_Logic;
 
-namespace api {
-  public class Startup {
+namespace api
+{
+    public class Startup {
     private readonly IConfiguration _config;
 
     public Startup(IConfiguration config) {
@@ -33,24 +31,24 @@ namespace api {
         optionsAction.UseMySQL(_config.GetConnectionString("DefaultConnection"));
       });
       services.AddCors();
-       
-      services.AddAuthentication(opt=>{
-         opt.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;
-          opt.DefaultChallengeScheme=JwtBearerDefaults.AuthenticationScheme;
-          }).AddJwtBearer(option=>
-          {
-            option.SaveToken=true;
-              option.TokenValidationParameters= new TokenValidationParameters
-                {
-                    ValidateIssuer=true,
-                    ValidateAudience=true,
-                    ValidateLifetime=true,
-                    ValidateIssuerSigningKey=true,
-                    ValidIssuer="https://localhost:5001",
-                    ValidAudience="https://localhost:5001",
-                    IssuerSigningKey=new SymmetricSecurityKey(Encoding.UTF8.GetBytes("superSecretKey@365"))
-                 };
-          });
+      var key ="secureSuperKey@365";
+      services.AddAuthentication(x=>{
+
+x.DefaultAuthenticateScheme=JwtBearerDefaults.AuthenticationScheme;
+x.DefaultChallengeScheme=JwtBearerDefaults.AuthenticationScheme;
+      }).AddJwtBearer(x=>{
+          x.RequireHttpsMetadata = false;
+        x.SaveToken=true;
+        x.TokenValidationParameters=new TokenValidationParameters{
+ValidateIssuerSigningKey=true,
+IssuerSigningKey=  new SymmetricSecurityKey(Encoding.ASCII.GetBytes(key)),
+ValidateIssuer=false,
+ValidateAudience=false,
+
+            
+        };
+      });
+      services.AddSingleton<IJwtAuthenticationManager>(new JwtAuthenticationManager(key));
       services.AddControllers();
       services.AddSwaggerGen(c =>{
         c.SwaggerDoc("v1", new OpenApiInfo {
@@ -71,14 +69,14 @@ namespace api {
 
       app.UseHttpsRedirection();
       app.UseRouting();  
-      app.UseAuthentication(); 
+      
       app.UseCors(x => x
                 .AllowAnyMethod()
                 .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true) // allow any origin
+               .SetIsOriginAllowed(origin => true) // allow any origin
                 .AllowCredentials()); // allow credentials
 
-     
+     app.UseAuthentication(); 
       app.UseAuthorization();
       app.UseEndpoints(endpoints =>{
         endpoints.MapControllers();

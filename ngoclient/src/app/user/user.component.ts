@@ -1,3 +1,4 @@
+import { FormBuilder, FormGroup, FormControl, Validators} from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { AppUserDetail } from './user.models';
 import {UserService} from './user.service';
@@ -32,12 +33,13 @@ export class UserComponent implements OnInit {
   role?: any;
   userid: number;
    
+  form: FormGroup = new FormGroup({});
   constructor(private userservice: UserService,
     private route: ActivatedRoute,
     public router: Router ,
     private http: HttpClient,
-    private spinner:NgxSpinnerService 
-    ) {   
+    private spinner:NgxSpinnerService    ) {   
+      
       let lrole:any = sessionStorage.getItem("role");//GlobalConstants.role;
       this.role=CryptoJS.AES.decrypt( lrole,GlobalConstants.encryptionpassword ).toString(CryptoJS.enc.Utf8);  //GlobalConstants.role;
       let luserid:any = sessionStorage.getItem("userid");//GlobalConstants.role;

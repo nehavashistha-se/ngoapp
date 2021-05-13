@@ -70,7 +70,7 @@ ResultReturn.Data=1;
             ResultReturn<AppUserDetail>  ResultReturn = new ResultReturn<AppUserDetail> ();
             using (_context)
             {
-                var UserExist = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId).Any();
+                var UserExist = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId ).Any();
                 if (UserExist)
                 {
                     var userDetail = _context.UsersDetail.Where(y => y.UserId == appUserDetail.UserId).FirstOrDefault();
@@ -109,7 +109,7 @@ ResultReturn.Data=1;
                 }
                 else
                 {
-                    if(! _context.UsersDetail.Where(y => y.Username == appUserDetail.Username).Any())
+                    if(! _context.UsersDetail.Where(y => y.Username.ToLower().Trim() == appUserDetail.Username.ToLower().Trim() || y.Email.ToLower().Trim()==appUserDetail.Email.ToLower().Trim()).Any())
                     _context.UsersDetail.Add(appUserDetail);
                     else
                     {

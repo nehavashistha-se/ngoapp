@@ -15,7 +15,7 @@ namespace api.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-   // [Authorize]
+    [Authorize]
    [AllowAnonymous]
     public class LoginController : ControllerBase
     {
@@ -23,7 +23,6 @@ namespace api.Controllers
         LoginBL LoginBL = new LoginBL();
         public LoginController(DataContext context, IJwtAuthenticationManager jwtAuthenticationManager)
         {
-
             LoginBL._context = context;
             this._jwtAuthenticationManager = jwtAuthenticationManager;
         }

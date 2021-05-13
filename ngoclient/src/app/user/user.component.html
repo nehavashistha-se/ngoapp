@@ -40,10 +40,11 @@
 	
 				<div class="col-md-3">
 					<label for="username">Username* </label>
+					 
 					<input type="text" class="form-control input-sm" id="username" name="username" [(ngModel)]="appuser.username"
-						placeholder="" required />
+						placeholder="" [disabled]= "((appuser.userId==null?-1:appuser.userId)>0)" required />
 						<input type="hidden" class="form-control input-sm" id="userid" name="userid" [(ngModel)]="appuser.userId"
-						placeholder=""  />
+						placeholder="" />
 				
 				</div>
 				<div class="col-md-3">
@@ -84,7 +85,7 @@
 				</div>
 				<div class="col-md-3 ">
 					<label for="contactno">Contact</label>
-					<input type="text" class="form-control input-sm" id="contactno" name="contactno" [(ngModel)]="appuser.contactno" placeholder=""/>
+					<input type="tel" class="form-control input-sm" maxlength="10"  id="contactno" name="contactno"  ng-pattern="/^[0-9]*$/" [(ngModel)]="appuser.contactno" placeholder=""/>
 			
 					</div>
 			
